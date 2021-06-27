@@ -17,7 +17,7 @@ import (
 const cgroupMemoryHierarchyMount = "/sys/fs/cgroup/memory"
 
 func main() {
-	// 第二次执行，相当于启动容器
+	// 第一次不会执行，在下面操作完成后第二次执行时，相当于启动容器
 	if os.Args[0] == "/proc/self/exe" {
 		// 容器进程
 		fmt.Printf("current pid: %d\n", syscall.Getpid())
@@ -41,6 +41,7 @@ func main() {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
+	// /proc/self/exe 代表程序本身进程，相当于二次启动自己
 	if err := cmd.Start(); err != nil {
 		fmt.Println("ERROR", err)
 		os.Exit(1)
