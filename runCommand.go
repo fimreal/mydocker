@@ -1,3 +1,4 @@
+// 3.3 版本更新，传参使用pipe，避免过长或者特殊参数无法解析的问题。
 package main
 
 import (
@@ -28,9 +29,13 @@ var runCommand = cli.Command{
 		if len(context.Args()) < 1 {
 			return fmt.Errorf("Missing container command")
 		}
-		cmd := context.Args().Get(0)
+		// cmd := context.Args().Get(0)
+		var cmdArray []string
+		for _, arg := range context.Args() {
+			cmdArray = append(cmdArray, arg)
+		}
 		tty := context.Bool("it")
-		Run(tty, cmd)
+		Run(tty, cmdArray)
 		return nil
 	},
 }
@@ -44,9 +49,11 @@ var initCommand = cli.Command{
 	*/
 	Action: func(context *cli.Context) error {
 		log.Infof("init come on")
-		cmd := context.Args().Get(0)
-		log.Infof("command %s", cmd)
-		err := container.RunContainerInitProcess(cmd, nil)
+		// 下面这部分放到 run.go 中来执行
+		// cmd := context.Args().Get(0)
+		// log.Infof("command %s", cmd)
+		// err := container.RunContainerInitProcess(cmd, nil)
+		err := container.RunContainerInitProcess()
 		return err
 	},
 }

@@ -1,9 +1,10 @@
 package main
 
 import (
+	"os"
+
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
-	"os"
 )
 
 const usage = `mydocker is a simple container runtime implementation.
